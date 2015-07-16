@@ -12,13 +12,14 @@ object Exercise_2_1 extends App {
       }
     }
     n match {
-      case x if (x <= 0) => 0
+      case x if x <= 0 => 0
       case 1 => 0
       case 2 => 1
       case _ => go(n-2, 0, 1)
     }
   }
 
+  println(fib(-10))
   println(fib(0))
   println(fib(1))
   println(fib(2))
