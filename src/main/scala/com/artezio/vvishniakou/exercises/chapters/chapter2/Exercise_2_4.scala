@@ -1,6 +1,6 @@
-package com.artezio.vvishniakou.exercises
+package com.artezio.vvishniakou.exercises.chapters.chapter2
 
-import Exercise_2_3._
+import com.artezio.vvishniakou.exercises.chapters.chapter2.Exercise_2_3._
 
 object Exercise_2_4 extends App {
   def uncurry[A, B, C](f: A => B => C): (A, B) => C =

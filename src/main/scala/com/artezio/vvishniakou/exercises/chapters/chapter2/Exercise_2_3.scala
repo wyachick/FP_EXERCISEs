@@ -1,4 +1,4 @@
-package com.artezio.vvishniakou.exercises
+package com.artezio.vvishniakou.exercises.chapters.chapter2
 
 object Exercise_2_3 extends App {
   def curry[A,B,C](f: (A, B) => C): A => B => C =

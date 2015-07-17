@@ -1,4 +1,4 @@
-package com.artezio.vvishniakou.exercises
+package com.artezio.vvishniakou.exercises.chapters.chapter2
 
 object Exercise_2_2 extends App {
 
