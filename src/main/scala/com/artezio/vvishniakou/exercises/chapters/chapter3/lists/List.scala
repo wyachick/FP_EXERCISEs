@@ -1,6 +1,6 @@
-package com.artezio.vvishniakou.exercises.chapters.chapter3
+package com.artezio.vvishniakou.exercises.chapters.chapter3.lists
 
-object Exercise_3 extends App {
+object List extends App {
 
   sealed trait List[+A]
 
