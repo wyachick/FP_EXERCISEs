@@ -47,12 +47,14 @@ object Exercise_3 extends App {
 
 
     def foldLeft[A, B](as: List[A], z: B)(f: (A, B) => B): B = {
+
       def go(acc: B, l: List[A]): B = {
         l match {
           case Nil => acc
           case Cons(h, t) => go(f(h, acc), t)
         }
       }
+
       go(z, as)
     }
 
@@ -79,6 +81,7 @@ object Exercise_3 extends App {
     def filter_2[A](as: List[A])(f: A => Boolean): List[A] = flatMap(as)(x => if (f(x)) List(x) else Nil)
 
     def filter[A](as: List[A])(f: A => Boolean): List[A] = {
+
       def go(acc: List[A], l: List[A]): List[A] = {
         l match {
           case Nil => reverse(acc)
@@ -86,10 +89,12 @@ object Exercise_3 extends App {
           case Cons(h, t) => go(acc, t)
         }
       }
+
       go(Nil, as)
     }
 
     def sumLists(l1: List[Int], l2: List[Int]): List[Int] = {
+
       def go(acc: List[Int], l1: List[Int], l2: List[Int]): List[Int] = {
         l1 match {
           case Nil => l2 match {
@@ -102,10 +107,12 @@ object Exercise_3 extends App {
           }
         }
       }
+
       go(Nil, l1, l2)
     }
 
     def zipWith[A](l1: List[A], l2: List[A])(f: (A, A) => A): List[A] = {
+
       def go(acc: List[A], l1: List[A], l2: List[A]): List[A] = {
         l1 match {
           case Nil => reverse(acc)
@@ -115,10 +122,12 @@ object Exercise_3 extends App {
           }
         }
       }
+
       go(Nil, l1, l2)
     }
 
     def take[A](list: List[A], n: Int): List[A] = {
+
       def go(acc: List[A], list: List[A], n: Int): List[A] = {
         if (n <= 0) reverse(acc)
         else
@@ -127,6 +136,7 @@ object Exercise_3 extends App {
             case Cons(h, t) => go(Cons(h, acc), t, n - 1)
           }
       }
+
       go(Nil, list, n)
     }
 
@@ -144,6 +154,7 @@ object Exercise_3 extends App {
 
 
   println(List.drop(List.setHead(-9, List.tail(List(1, 2, 3, 4, 5))), 3))
+
   println(List.dropWhile(List.setHead(-9, List.tail(List(1, 2, 3, 4, 5))))(_ < 3))
 
   println(List.foldRight(List(1, 2, 3), "[")(_ + _ + ",") + "]")
@@ -151,13 +162,17 @@ object Exercise_3 extends App {
   println(List.foldLeft(List(1, 2, 3), "[")(_ + _ + ",") + "]")
 
   println(List.length(List(1, 2, 3, 4, 5, 6, 7, 8)))
+
   println(List.sum(List(1, 2, 3, 4, 5, 6, 7, 8)))
+
   println(List.product(List(1, 2, 3, 4, 5, 6, 7, 8)))
+
   println(List.reverse(List(1, 2, 3, 4, 5, 6, 7, 8)))
 
   println(List.append(List(1, 2, 3, 4, 5, 6, 7, 8), 9))
 
   println(List.concat(List(1, 2, 3), List(4, 5, 6, 7, 8)))
+
   println(List.addOne(List.concat(List(1, 2, 3), List(4, 5, 6, 7, 8))))
 
   println(List.map(List.concat(List(1, 2, 3), List(4, 5, 6, 7, 8)))("'" + _.toString))
