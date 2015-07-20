@@ -1,7 +1,5 @@
 package com.artezio.vvishniakou.exercises.chapters.chapter4
 
-import scala.util.Try
-
 object Option extends App {
 
   trait Option[+A] {
@@ -48,6 +46,9 @@ object Option extends App {
     }
 
 
+
+
+
   /*
     def map2[A, B, C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] = {
       a.flatMap(x => b.map(y => f(x, y)))
@@ -77,10 +78,21 @@ object Option extends App {
 
   def traverse[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] = {
 
-    a.foldLeft(Some(Nil): Option[List[B]]) { (b, aa) =>
+    a.foldRight(Some(Nil): Option[List[B]]) { (aa, b) =>
       f(aa).flatMap(bb => b.map(list => bb :: list))
     }
 
+  }
+
+
+  def traverseFor[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] = {
+
+    a.foldRight(Some(Nil): Option[List[B]]) { (aa, b) =>
+      for {
+        bb <- f(aa)
+        list <- b
+      } yield bb :: list
+    }
   }
 
 
@@ -102,7 +114,9 @@ object Option extends App {
   println(sequence(List(Some(5), Some(54), Some(4))))
   println(sequence(List(Some(5), None, Some(4))))
 
-  println(traverse[String, Int](List("4e4", "123", "12"))(x => Try(x.toInt)))
+  println(traverse[String, Int](List("414", "123", "12"))(x => Try(x.toInt)))
+
+  println(traverseFor[String, Int](List("414", "123", "12"))(x => Try(x.toInt)))
 
 
 }
