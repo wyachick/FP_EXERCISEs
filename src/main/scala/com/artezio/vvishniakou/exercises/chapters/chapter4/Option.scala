@@ -1,5 +1,7 @@
 package com.artezio.vvishniakou.exercises.chapters.chapter4
 
+import scala.util.Try
+
 object Option extends App {
 
   trait Option[+A] {
@@ -39,22 +41,48 @@ object Option extends App {
     override def orElse[B >: Nothing](ob: => Option[B]): Option[B] = ob
   }
 
+  def Try[A](a: => A): Option[A] =
+    try Some(a)
+    catch {
+      case e: Exception => None
+    }
+
+
+  /*
+    def map2[A, B, C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] = {
+      a.flatMap(x => b.map(y => f(x, y)))
+    }
+
+    def sequence[A](a: List[Option[A]]): Option[List[A]] = {
+
+      def go(acc: List[A], list: List[Option[A]]): Option[List[A]] = {
+        list match {
+          case Nil => Some(acc.reverse)
+          case h :: _ if h == None => None
+          case h :: t => val Some(a) = h
+            go(a :: acc, t)
+        }
+      }
+      go(Nil, a)
+    }
+  */
+
   def map2[A, B, C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] = {
-    a.flatMap(x => b.map(y => f(x, y)))
+    a.flatMap(aa => b map (bb => f(aa, bb)))
   }
 
   def sequence[A](a: List[Option[A]]): Option[List[A]] = {
-
-    def go(acc: List[A], list: List[Option[A]]): Option[List[A]] = {
-      list match {
-        case Nil => Some(acc.reverse)
-        case h :: _ if h == None => None
-        case h :: t => val Some(a) = h
-          go(a :: acc, t)
-      }
-    }
-    go(Nil, a)
+    a.foldRight(Some(Nil): Option[List[A]])((x, acc) => map2(x, acc)((x, y) => x :: y))
   }
+
+  def traverse[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] = {
+
+    a.foldLeft(Some(Nil): Option[List[B]]) { (b, aa) =>
+      f(aa).flatMap(bb => b.map(list => bb :: list))
+    }
+
+  }
+
 
   def variance(xs: Seq[Double]): Option[Double] = {
 
@@ -73,6 +101,8 @@ object Option extends App {
 
   println(sequence(List(Some(5), Some(54), Some(4))))
   println(sequence(List(Some(5), None, Some(4))))
+
+  println(traverse[String, Int](List("4e4", "123", "12"))(x => Try(x.toInt)))
 
 
 }
