@@ -49,6 +49,7 @@ object Streams extends App {
                                                                           Cons(() => a ,() => b)
                                                                         else Empty)
 
+    def headOption2: Option[A] = foldRight(None: Option[A])((a, b) => Some(a))
 
 
   }
@@ -84,6 +85,7 @@ object Streams extends App {
 
   println(Stream[Int](2, 2, 4, 6, 11, 8).forAll(_  % 2 == 0))
 
+  println(Stream[Int](2, 2, 4, 6, 11, 8).headOption2)
 
 
 
