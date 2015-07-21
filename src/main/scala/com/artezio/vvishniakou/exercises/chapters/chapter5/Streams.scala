@@ -44,12 +44,31 @@ object Streams extends App {
 
     def forAll(p: A => Boolean): Boolean = foldRight(true)((a, b) => p(a) && b)
 
-    def takeWhile2(p: A => Boolean): Stream[A] = foldRight(Stream[A]())((a,b) =>
-                                                                        if (p(a))
-                                                                          Cons(() => a ,() => b)
-                                                                        else Empty)
+    def takeWhile2(p: A => Boolean): Stream[A] = foldRight(Stream[A]())((a, b) =>
+      if (p(a))
+        Cons(() => a, () => b)
+      else Empty)
 
     def headOption2: Option[A] = foldRight(None: Option[A])((a, b) => Some(a))
+
+    def map[B](f: A => B): Stream[B] = {
+      foldRight(Stream[B]())((a, b) => Stream.cons[B](f(a), b))
+    }
+
+    def flatMap[B](f: A => Stream[B]): Stream[B] = {
+      foldRight(Stream[B]())((a, b) => f(a).foldRight(b)((aa, bb) => Stream.cons[B](aa, bb)))
+    }
+
+    def append[B >: A](value: => B): Stream[B] = {
+      foldRight(Stream(value))((a, b) => Stream.cons(a, b))
+    }
+
+    def filter(p: A => Boolean): Stream[A] = {
+      foldRight(Stream[A]())((a, b) =>
+        if (p(a)) Stream.cons(a, b)
+            else b
+      )
+    }
 
 
   }
@@ -83,11 +102,17 @@ object Streams extends App {
 
   println(Stream[Int](1, 2, 4, 6, 7, 8).takeWhile(_ < 5).toList)
 
-  println(Stream[Int](2, 2, 4, 6, 11, 8).forAll(_  % 2 == 0))
+  println(Stream[Int](2, 2, 4, 6, 11, 8).forAll(_ % 2 == 0))
 
   println(Stream[Int](2, 2, 4, 6, 11, 8).headOption2)
 
+  println(Stream[Int](2, 2, 4, 6, 11, 8).map(_ % 2 == 0).toList)
+
+  println(Stream[Int](2, 2, 4, 6, 11, 8).filter(_ % 2 != 0).toList)
 
 
+  println(Stream[Int](2, 2, 4, 6, 11, 8).flatMap(x => Stream(1 to x : _*)).toList)
+
+  println(Stream[Int](2, 2, 4, 6, 11, 8).flatMap(x => Stream(1 to x : _*)).append({56+12}).toList)
 
 }
