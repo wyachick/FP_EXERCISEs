@@ -60,8 +60,7 @@ object Option extends App {
         list match {
           case Nil => Some(acc.reverse)
           case h :: _ if h == None => None
-          case h :: t => val Some(a) = h
-            go(a :: acc, t)
+          case Some(a) :: t =>  go(a :: acc, t)
         }
       }
       go(Nil, a)
