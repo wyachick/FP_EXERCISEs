@@ -194,7 +194,7 @@ object Chapter6 extends App {
 
   case class Machine(locked: Boolean, candies: Int, coins: Int) {
     def getInfo: (Int, Int) = (coins, candies)
-    def getCandy = copy(candies = candies-1, coins = coins + 1)
+    def getCandy = copy(locked= true, candies = candies-1, coins = coins + 1)
   }
 
   def simulateMachine(inputs: List[Input]): State[Machine, (Int, Int)] = State(machine =>
@@ -212,6 +212,6 @@ object Chapter6 extends App {
 
     )
 
-  println(simulateMachine(List(Coin, Turn, Coin, Turn,Coin, Turn,Coin, Turn)).run(Machine(locked = true, 5, 10)))
+  println(simulateMachine(List(Turn,Turn,Turn,Turn,Turn,Turn,Turn,Turn,Coin,Coin,Coin,Coin,Coin,Coin,Turn)).run(Machine(locked = true, 5, 10)))
 
 }
