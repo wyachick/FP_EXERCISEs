@@ -1,4 +1,4 @@
-package com.artezio.vvishniakou.exercises.chapters.chapter5
+package com.artezio.vvishniakou.exercises.chapters.part1
 
 object Streams extends App {
 
