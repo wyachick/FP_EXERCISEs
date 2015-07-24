@@ -13,6 +13,15 @@ object Sort extends App {
     go(Nil, list)
   }
 
+  def insertSortFold[A](list: List[A])(p: (A, A) => Boolean): List[A] =
+    list.foldLeft(List.empty[A])((b, a) =>
+      (b.takeWhile(p(_, a)) :+ a) ::: b.dropWhile(p(_, a))
+    )
+
+
+
+
+
   def mergeSort[A](list: List[A])(p: (A, A) => Boolean): List[A] = {
     def merge(left: List[A], right: List[A]): List[A] = {
       def go(acc: List[A], l: List[A], r: List[A]): List[A] = {
@@ -83,10 +92,13 @@ object Sort extends App {
   }
 
 
+
+  println("insertSort")
   println(List(1, 3, 2, 1, 6, 3, 1, 9))
   println(insertSort(List(1, 3, 2, 1, 6, 3, 1, 9))(_ < _))
 
-  val array = Array(1, 3, 2, 1, 6, 3, 1, 9)
+
+    val array = Array(1, 3, 2, 1, 6, 3, 1, 9)
   insertSortArray(array)(_ < _)
   println(array.toList)
 
@@ -94,6 +106,11 @@ object Sort extends App {
   insertSortArray2(array2)(_ > _)
   println(array2.toList)
 
+  println("Merge Sort")
   println(mergeSort(List(1, 3, 2, 1, 6, 3, 1, 9, 0))(_ < _))
+
+  println("insertSortFold")
+  println(List(1, 3, 2, 1, 6, 3, 1, 9))
+  println(insertSortFold(List(1, 3, 2, 1, 6, 3, 1, 9))(_ <= _))
 
 }
